@@ -2,8 +2,8 @@
  * Easy Share Buttons
  *
  * @author istem
+ * @date 2020-11-25
  */
-;;;
 (function () {
 	var settings = {
 			"selector": ".easy-share",
