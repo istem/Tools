@@ -1,7 +1,7 @@
 /* 
  * Easy Share Buttons
  *
- * @author ml
+ * @author istem
  */
 ;;;
 (function () {
