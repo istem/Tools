@@ -6,7 +6,7 @@
 ;;;
 (function () {
 	var settings = {
-			"selector": ".my-share",
+			"selector": ".easy-share",
 			"attr": {
 				"services": "data-services",
 				"url": "data-url"
