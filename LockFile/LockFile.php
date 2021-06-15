@@ -41,7 +41,7 @@ class LockFile {
 	}
 
 	/**
-   * Check ability lock and create lockfile
+	 * Check ability lock and create lockfile
 	 *
 	 * @return bool
 	 */
