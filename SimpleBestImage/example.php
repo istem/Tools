@@ -26,13 +26,15 @@ $bestImageSrc = $SimpleBestImage->best($files);
 $worstImageSrc = $SimpleBestImage->worst($files);
 
 ?>
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Example</title>
-	</head>
-	<body>
-		<img title="Best image" src="<?php echo $bestImageSrc; ?>"/>
-		<hr/>
-		<img title="Worst image" src="<?php echo $worstImageSrc; ?>"/>
-	</body>
+  <head>
+    <meta charset="utf-8">
+    <title>My Super Puper Site</title>
+  </head>
+  <body>
+    <img title="Best image" src="<?php echo $bestImageSrc; ?>"/>
+    <hr/>
+    <img title="Worst image" src="<?php echo $worstImageSrc; ?>"/>
+  </body>
 </html>
