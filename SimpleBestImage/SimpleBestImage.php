@@ -111,6 +111,7 @@ class SimpleBestImage {
 	private function _sorting($firstDeviation, $secondDeviation) {
 
 		if ($secondDeviation['diff'] < 0) {
+			// TODO: or $secondDeviation for worst result - нихуя не понятно, пока ещё
 			return -1; //$firstDeviation;
 		}
 
