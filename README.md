@@ -12,3 +12,7 @@ Miscellaneous useful tools
 3. LockFile - locking а repeat executing for php-fpm process
 
   (блокировка повторного вызова в php-fpm процессах, например для cron, которые часто вызываются)
+  
+4. SimpleBestImage - Sorting array image filenames by "simple best image" algorithm
+
+  (сортирует имена файлов изображений в порядке от "лучшего" к "худшему", по отклонению дисперсии гаммы изображения от стандартного среднего)
