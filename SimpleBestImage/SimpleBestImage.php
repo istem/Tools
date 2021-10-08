@@ -122,7 +122,7 @@ class SimpleBestImage {
 			return 1; //$secondDeviation;
 		}
 
-		// TODO: Хуйня какая-то... Надо перекоррелировать гомеостаз...
+		// TODO: Ебаная хуйня какая-то... Надо перекоррелировать гомеостаз...
 		$diff1 = $secondDeviation['deviation'] - $secondDeviation['diff'];
 		$diff2 = $firstDeviation['deviation'] - $firstDeviation['diff'];
 
