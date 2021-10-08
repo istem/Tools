@@ -19,7 +19,7 @@ class SimpleBestImage {
 	public $pixelateSize = 3; // px
 
 	/**
-	 * Value of contrast for getting color map of image stamp
+	 * Value of contrast for getting pretty color map of image stamp
 	 */
 	public $contrast = -64; // -255..255
 
@@ -117,7 +117,7 @@ class SimpleBestImage {
 		$diff1 = $secondDeviation['deviation'] - $secondDeviation['diff'];
 		$diff2 = $firstDeviation['deviation'] - $firstDeviation['diff'];
 
-		return ($diff1 < $diff2) ? 1 : -1 ; //$secondDeviation : $firstDeviation;
+		return ($diff1 < $diff2) ? -1 : 1 ; // $firstDeviation : $secondDeviation;
 	}
 
 	/**
