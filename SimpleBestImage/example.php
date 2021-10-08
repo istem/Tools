@@ -13,6 +13,7 @@ $params = array(
 	'pixelateSize' => 3,
 	'contrast' => -64,
 	'scaleMapSize' => 16,
+	'look' => 'happy',
 );
 
 $SimpleBestImage = new SimpleBestImage_tool($params);
