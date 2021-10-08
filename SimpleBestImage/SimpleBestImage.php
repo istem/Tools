@@ -9,6 +9,11 @@
 class SimpleBestImage {
 
 	/**
+	 * "Happy" or "sad" look
+	 */
+	public $look = 'happy'; // "happy" or "sad"
+	
+	/**
 	 * Size of image stamp
 	 */
 	public $stampSize = 10; // px
@@ -117,7 +122,10 @@ class SimpleBestImage {
 		$diff1 = $secondDeviation['deviation'] - $secondDeviation['diff'];
 		$diff2 = $firstDeviation['deviation'] - $firstDeviation['diff'];
 
-		return ($diff1 < $diff2) ? -1 : 1 ; // $firstDeviation : $secondDeviation;
+		return ($this->look=='happy')
+			? (($diff1 < $diff2) ? -1 : 1) // $firstDeviation : $secondDeviation;
+			: (($diff1 < $diff2) ? 1 : -1) // $secondDeviation : $firstDeviation;
+		;
 	}
 
 	/**
