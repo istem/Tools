@@ -9,7 +9,7 @@
 class SimpleBestImage {
 
 	/**
-	 * "Happy" or "sad" look
+	 * Type of look: "happy" or "sad"
 	 */
 	public $look = 'happy'; // "happy" or "sad"
 	
@@ -56,7 +56,8 @@ class SimpleBestImage {
 	 */
 	public function getBest( $filenames ) {
 
-		return array_shift( $this->sort($filenames) );
+		$out = $this->sort($filenames);
+		return array_shift( $out );
 	}
 
 	/**
@@ -68,7 +69,8 @@ class SimpleBestImage {
 	 */
 	public function getWorst( $filenames ) {
 
-		return array_pop( $this->sort($filenames) );
+		$out = $this->sort($filenames);
+		return array_pop( $out );
 	}
 
 	/**
