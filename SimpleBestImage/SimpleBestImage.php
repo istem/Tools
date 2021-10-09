@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Sorting array image filenames by "simple best image" algorithm
  *
@@ -9,29 +8,40 @@
 class SimpleBestImage {
 
 	/**
-	 * Type of look: "happy" or "sad"
+	 * Type of look:
+	 *	"happy" or "sad"
 	 */
-	public $look = 'happy'; // "happy" or "sad"
-	
+	public $look = 'happy';
+
+	/**
+	 * Filter set
+	 *	"p"(ixelate), "g"(reyscale) and "c"(ontrast)
+	 */
+	public $filterSet = 'pgc';
+
 	/**
 	 * Size of image stamp
+	 *	px
 	 */
-	public $stampSize = 10; // px
+	public $stampSize = 10;
 
 	/**
 	 * Size of pixels for pixelate filter
+	 *	px
 	 */
-	public $pixelateSize = 3; // px
+	public $pixelateSize = 3;
 
 	/**
 	 * Value of contrast for getting pretty color map of image stamp
+	 *	-255..255
 	 */
-	public $contrast = -64; // -255..255
+	public $contrast = -64;
 
 	/**
 	 * Size of scale map for calculate variance and standard deviation
+	 *	divisor of diapason 0..256
 	 */
-	public $scaleMapSize = 4; // divisor of diapason 0..256
+	public $scaleMapSize = 4;
 
 	/**
 	 * Constructor
@@ -110,26 +120,29 @@ class SimpleBestImage {
 	 */
 	private function _sorting($firstDeviation, $secondDeviation) {
 
+		$iAmHappy = ($this->look=='happy');
+
 		if ($secondDeviation['diff'] < 0) {
-			// TODO: or $secondDeviation for worst result - нихуя не понятно, пока ещё
 			return -1; //$firstDeviation;
 		}
 
 		$cond1 = $secondDeviation['deviation'] < $firstDeviation['deviation'];
 		$cond2 = $secondDeviation['diff'] > $firstDeviation['diff'];
 
-		if ($cond1 && $cond2) {
+		$diff1 = abs($firstDeviation['avg'] - $firstDeviation['median']);
+		$diff2 = abs($secondDeviation['avg'] - $secondDeviation['median']);
+
+		$diff3 = $firstDeviation['max'] - $firstDeviation['min'];
+		$diff4 = $secondDeviation['max'] - $secondDeviation['min'];
+
+		if ($cond1 && $cond2 && ($diff1 > $diff2)) {
 			return 1; //$secondDeviation;
 		}
 
-		// TODO: Ебаная хуйня какая-то... Надо перекоррелировать гомеостаз...
-		$diff1 = $secondDeviation['deviation'] - $secondDeviation['diff'];
-		$diff2 = $firstDeviation['deviation'] - $firstDeviation['diff'];
-
-		return ($this->look=='happy')
-			? (($diff1 < $diff2) ? -1 : 1) // $firstDeviation : $secondDeviation;
-			: (($diff1 < $diff2) ? 1 : -1) // $secondDeviation : $firstDeviation;
-		;
+		return $iAmHappy
+				? ($diff1 <=> $diff2)
+				: ($diff3 <=> $diff4)
+			;
 	}
 
 	/**
@@ -165,6 +178,14 @@ class SimpleBestImage {
 			$lastValue = $value;
 		}
 
+		// Calculate median
+		sort($scaleMap);
+		$key = sizeof($scaleMap)/2;
+		$median = ($key == round($key))
+				? $scaleMap[$key]
+				: ($scaleMap[floor($key)] + $scaleMap[ceil($key)]) / 2
+			;
+
 		// Calculate standart deviation
 		$avg = floor(array_sum($scaleMap) / sizeof($scaleMap));
 		$sum = 0;
@@ -173,10 +194,14 @@ class SimpleBestImage {
 		}
 
 		// sqrt variance
-		$deviation = floor(sqrt(array_sum($scaleMap) / sizeof($scaleMap)));
+		$deviation = floor(sqrt($sum / sizeof($scaleMap)));
 
 		return array(
 			'filename'	=> $filename,
+			'min'		=> min($scaleMap),
+			'max'		=> max($scaleMap),
+			'median'	=> $median,
+			'avg'		=> $avg,
 			'deviation'	=> $deviation,
 			'diff'		=> $avg - $deviation,
 		);
@@ -227,9 +252,17 @@ class SimpleBestImage {
 			return null;
 		}
 
-		imagefilter($stamp, IMG_FILTER_PIXELATE, $this->pixelateSize, true);
-		imagefilter($stamp, IMG_FILTER_GRAYSCALE);
-		imagefilter($stamp, IMG_FILTER_CONTRAST, $this->contrast);
+		$sets = array_flip( str_split( strtolower($this->filterSet)) );
+
+		if ( isset($sets['p']) ) {
+			imagefilter($stamp, IMG_FILTER_PIXELATE, $this->pixelateSize, true);
+		}
+		if ( isset($sets['g']) ) {
+			imagefilter($stamp, IMG_FILTER_GRAYSCALE);
+		}
+		if ( isset($sets['c']) ) {
+			imagefilter($stamp, IMG_FILTER_CONTRAST, $this->contrast);
+		}
 
 		return $stamp;
 	}
@@ -280,9 +313,9 @@ class SimpleBestImage {
 				$color = imagecolorsforindex($stamp, imagecolorat($stamp, $x, $y));
 
 				unset($color['alpha']);
-				
+
 				$key = floor(array_sum($color)/sizeof($color));
-				
+
 				if (!isset($map[$key])) {
 					$map[$key] = 0;
 				}
