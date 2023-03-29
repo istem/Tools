@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Super Puper Site</title>
+    <script type="text/javascript" src="CanvasGif.js"></script>
+	  <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function(){
+        
+        // from URL
+		    var gif_1 = new CanvasGif(document.getElementById('img_1'));
+        
+        // from base 64 data image
+        var gif_2 = new CanvasGif(document.getElementById('img_2'));
+        
+        // don't use delay from gif frame data
+        gif_1.useDelay = false;
+        
+        // destroy canvas, return as it was
+        gif_2.destroy();
+
+      });
+    </script>
+    <style>
+      img { border: 1px solid #ccc; padding: 2px; }
+    </style>
+  </head>
+  <body>
+    <img 
+         title="URL Image" 
+         id="img_1" 
+         src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Duvor.gif/120px-Duvor.gif" 
+         alt=""
+    />
+    
+    <img 
+         title="Data base 64 Image" 
+         id="img_2" 
+         src="data:image/gif;base64,R0lGODlhGAAfAPf/AAAAAL0pKf/3zv///////////////////////////////////////////////////8zMzP/d8f///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJHgD/ACwAAAAAGAAfAEAIpAAHCBxIsKDBgwIBCFioUEBDhwgNAgAQoGKAiREjAkiYMeNEjB0LPlxIcqPGgRQtqjQ5gKVEiyZTXgxJM+RIkhBtCojAcyHPCDltjgTZMabKijEPKtwo8yjSlkGVgvxYUyCEq1ivVt3KdetEnER14ixJ82FDs2J3+iSbdqzLslSrfnQaF6FRpzNbSoTYlC7Utyw/Cq771i5Hr09bJhYKIGtdggEBACH5BAkeAP8ALAAAAAAYAB8AQAiuAAcIHEgQgEEABBMWHAhAgMOHDhEKlKhwYoCLGC9SrMgQo0QAHjkO+PiwoQCTJyeKnAjS48aVC0fCVAihps2bMydChPiyYMqGEYI6DBrhZ0qFH1Ge/JizZcaeHJ1mDNnUIEuoObNWvFlTK0ueWCsq5SmyIUKUJtGOPMpQ59C3EVUidbvzaNiRSa3izSpVo9a+VGECflr1oOG7YuX+9TuS8cyDBfVm5QrBK2WcCgMCADs=" 
+         alt=""
+    />
+  </body>
+</html>
