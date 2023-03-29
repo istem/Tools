@@ -16,3 +16,7 @@ Miscellaneous useful tools
 4. SimpleBestImage - Sorting array image filenames by "simple best image" algorithm
 
   (сортирует сет изображений в порядке от "лучшего" к "худшему", по отклонению дисперсии гаммы изображения от стандартного среднего)
+
+5. CanvasGif - replace GIF image tag with canvas element
+
+  (использует canvas вместо изображения gif с учётом отрисовки кадров браузером через requestAnimationFrame)
