@@ -20,3 +20,7 @@ Miscellaneous useful tools
 5. CanvasGif - replace GIF image tag with canvas element
 
   (использует canvas вместо изображения gif с учётом отрисовки кадров браузером через requestAnimationFrame)
+
+6. CheckVisibilityUTFSymbolInBrowser - simple js function for check visibilities some symbol into browser
+
+  (проверка видимости/поддержки UTF символа для отображения на странице в браузере)
