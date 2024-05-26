@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Super Puper Site</title>
+    <script type="text/javascript" src="CheckVisibilitySymbol.js"></script>
+	  <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function(){
+
+        // if browser supported visibility symbols
+        document.querySelectorAll('.if-visible')
+          .forEach(function(elm){
+            
+            var isVisible = 
+              CheckVisibilitySymbol(
+                elm.innerHTML,
+                getComputedStyle(elm).fontFamily
+              );
+            
+            if ( isVisible === 'no'  ) {
+              elm.style.display = 'none';
+            }
+          });
+
+      });
+    </script>
+  </head>
+  <body>
+    <span class="if-visible">🞅</span>
+    <br>
+    <span class="if-visible">🞆</span>
+    <br>
+    <span class="if-visible">🞇</span>
+    <br>
+    <span class="if-visible">🞈</span>
+    <br>
+    <span class="if-visible">🢐</span>
+    <br>
+    <span class="if-visible">a</span>
+  </body>
+</html>
