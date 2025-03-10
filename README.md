@@ -24,3 +24,7 @@ Miscellaneous useful tools
 6. CheckVisibilityUTFSymbolInBrowser - simple js function for check visibilities some symbol into browser
 
   (проверка видимости/поддержки UTF символа для отображения на странице в браузере)
+
+7. Hash - Encode/Decode array of values and hashed them
+
+  (хешировани массива значений - серверная и клиентская часть для браузера)
