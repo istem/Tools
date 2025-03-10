@@ -5,7 +5,7 @@
  *
  * @return Object
  *
- * @ml
+ * @author istem
  */
 function CanvasGif (source, options) {
 
