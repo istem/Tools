@@ -175,7 +175,6 @@ class Hash {
 
 		if ( hash !== this.encode( out ) )
 		{
-console.log(out);
 			out = [];
 		}
 
