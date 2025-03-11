@@ -39,7 +39,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * @author istem
+ * @author ml
  */
 
 class Hash {
@@ -456,8 +456,39 @@ class Hash {
 			input.unshift( this.#crc(input, secret) );
 		}
 
-		let sec = HashTool.str_split(secret),
-			len = input.length;
+		let hash = this.#hash( input.length, secret );
+		// todo ? this.#shuffle( hash, secret );
+
+		let out = hash.map( function(_, k) { return _ ^ input[k]; } );
+
+		if ( crc === 'decode' )
+		{
+			crc = out.shift();
+
+			if ( crc !== this.#crc(out, secret) )
+			{
+				out = [];
+			}
+		}
+
+		return out;
+	}
+
+	/**
+	 * Calculate hash for use into encrypt
+	 *
+	 * @param {int} len
+	 * @param {string} secret
+	 * @param {boolean} entropy
+	 *
+	 * @return {array}
+	 */
+	#hash ( len, secret, entropy )
+	{
+		let shift    = !!entropy ? 4 : 8,
+			quantity = !!entropy ? 11 : 7;
+
+		let sec = HashTool.str_split(secret);
 
 		if ( sec.length < len ) {
 
@@ -483,34 +514,27 @@ class Hash {
 
 		while ( hash.length < len )
 		{
-			hash = hash.concat(
-				HashTool.md5(
-					HashTool.md5( hash.concat([ '+'.charCodeAt() ], sec), true )
-					, true
-				)
-			);
+			let initial = HashTool.md5( hash.concat([ '+'.charCodeAt() ], sec), true );
+
+			let count = (this.#crc( sec, '') % quantity ) + 2;
+
+			for ( let i = 0; i < count; i++ )
+			{
+				initial = HashTool.md5( initial, true );
+			}
+
+			hash = hash.concat( initial.splice(0, shift) );
+
 			sec.pop();
 		}
 
 		if ( hash.length > len ) {
 			hash.splice(len);
 		}
-		// todo ? this.#shuffle( hash, secret );
 
-		let out = hash.map( function(_, k) { return _ ^ input[k]; } );
-
-		if ( crc === 'decode' )
-		{
-			crc = out.shift();
-
-			if ( crc !== this.#crc(out, secret) )
-			{
-				out = [];
-			}
-		}
-
-		return out;
+		return hash;
 	}
+
 	/**
 	 * Calculate CRC byte or word (default byte)
 	 *
@@ -687,7 +711,7 @@ class Hash {
 
 	#shuffle ( array, secret )
 	{
-		let symbols = HashTool.str_split( secret ),
+		let symbols = this.#hash( array.length, secret, true ),
 			len     = symbols.length;
 
 		if ( !len )
