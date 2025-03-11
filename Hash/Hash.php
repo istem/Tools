@@ -426,31 +426,8 @@ class Hash {
 				;
 		}
 
-		$sec = $secret;
-		$len = strlen( $input );
+		$hash = $this->_hash( strlen($input), $secret);
 
-		if ( strlen($sec) < $len ) {
-			$sec = str_pad($sec, $len, $sec, STR_PAD_RIGHT);
-		}
-		elseif ( strlen($sec) > $len ) {
-			$sec = substr($sec, -$len);
-		}
-
-		$hash = '';
-
-		while ( strlen($hash) < $len ) {
-
-			$hash .= md5(
-						md5( $hash . '+' . $sec, true)
-					, true)
-				;
-			$sec = substr($sec, 0, -1);
-		}
-
-		if ( strlen($hash) > $len ) {
-			$hash = substr( $hash, 0, $len );
-		}
-		// todo :? shuffle(hash, secret)
 		$out = $hash ^ $input;
 
 		if ( $crc === 'decode' ) {
@@ -464,6 +441,50 @@ class Hash {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Calculate hash for use into encrypt
+	 *
+	 * @param int $len
+	 * @param string $secret
+	 * @param bool $entropy
+	 *
+	 * @return string
+	 */
+	private function _hash( $len, $secret, $entropy=false ) {
+
+		$shift    = $entropy ? 4 : 8;
+		$quantity = $entropy ? 11 : 7;
+
+		if ( strlen($secret) < $len ) {
+			$secret = str_pad($secret, $len, $secret, STR_PAD_RIGHT);
+		}
+		elseif ( strlen($secret) > $len ) {
+			$secret = substr($secret, -$len);
+		}
+
+		$hash = '';
+
+		while ( strlen($hash) < $len ) {
+
+			$initial = md5( $hash . '+' . $secret, true);
+
+			$count = ( $this->_crc($secret, '') % $quantity ) + 2;
+
+			for ( $i=0; $i < $count; $i++ ) {
+				$initial = md5($initial, true);
+			}
+			$hash .= substr($initial, 0, $shift);
+
+			$secret = substr($secret, 0, -1);
+		}
+
+		if ( strlen($hash) > $len ) {
+			$hash = substr( $hash, 0, $len );
+		}
+
+		return $hash;
 	}
 
 	/**
@@ -626,8 +647,10 @@ class Hash {
 	 */
 	private function _shuffle( &$array, $secret ) {
 
-		$len = strlen($secret);
-		$symbols = str_split($secret);
+		$hash = $this->_hash( sizeof($array), $secret, true);
+
+		$len = strlen($hash);
+		$symbols = str_split($hash);
 
 		if ( !$len ) {
 			return;
