@@ -49,23 +49,23 @@ class Hash {
 	/**
 	 * Secret phrase
 	 */
-	#_secret   = navigator.userAgent;
+	#_secret;
 
 	/**
 	 * Alphabetical symbols for output hash
 	 */
-	#_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	#_alphabet;
 
 	/**
 	 * Use CRC-control byte
 	 */
-	#_crc      = true;
+	#_crc;
 
 	/**
 	 * Little nuance for decode values on third party machines
 	 * Not native float conversion
 	 */
-	#_export   = false;
+	#_export;
 
 	/**
 	 * Convert numeric to integer type instead string
@@ -110,20 +110,46 @@ class Hash {
 
 	constructor ( params )
 	{
-		if ( 'secret' in params ) {
+		this.setup(params);
+	}
+
+	setup ( params )
+	{
+		if ( 'secret' in params )
+		{
 			this.#_secret   = params.secret.toString();
 		}
+		else
+		{
+			this.#_secret   = navigator.userAgent;
+		}
+
 		if ( 'alphabet' in params ) {
 			this.#_alphabet = params.alphabet.toString();
 		}
+		else
+		{
+			this.#_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+		}
+
 		if ( 'crc' in params ) {
 			this.#_crc      = Boolean(params.crc);
 		}
+		else
+		{
+			this.#_crc      = true;
+		}
+
 		if ( 'export' in params ) {
 			this.#_export   = Boolean(params.export);
 		}
+		else
+		{
+			this.#_export   = false;
+		}
 
 		this.#shuffleTypes();
+		this.#shuffleAlphabet();
 	}
 
 	/**
@@ -135,6 +161,11 @@ class Hash {
 	 */
 	encode ( input )
 	{
+		if ( !input )
+		{
+			return '';
+		}
+
 		// clean up collision for, ex: dec 0100 = 100
 		let values = Array.from(input),
 			out = [0];
@@ -424,7 +455,7 @@ class Hash {
 		{
 			input.unshift( this.#crc(input, secret) );
 		}
-		
+
 		let sec = HashTool.str_split(secret),
 			len = input.length;
 
@@ -442,6 +473,10 @@ class Hash {
 				}
 			}
 			sec = tmp;
+		}
+		else if ( sec.length > len )
+		{
+			sec.splice(0, sec.length-len);
 		}
 
 		let hash = [];
@@ -641,6 +676,15 @@ class Hash {
 		});
 	}
 
+	#shuffleAlphabet ()
+	{
+		let array = this.#_alphabet.split('');
+
+		this.#shuffle(array, this.#_secret);
+
+		this.#_alphabet = array.join('');
+	}
+
 	#shuffle ( array, secret )
 	{
 		let symbols = HashTool.str_split( secret ),
@@ -723,7 +767,7 @@ class Hash {
 
 		return null;
 	}
-	
+
 	#_type_negative ( value, binary )
 	{
 		if ( binary !== null )
@@ -731,7 +775,7 @@ class Hash {
 			let val = this.#_type_integer( null, binary);
 			return (typeof val === 'string') ? '-' + val : -val;
 		}
-	
+
 		if (
 			!isNaN(parseFloat(value)) && isFinite(value)
 			&&
@@ -931,7 +975,7 @@ class Hash {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 class HashTool {
-	
+
 	constructor () {}
 
 	static empty ( val )
