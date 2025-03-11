@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Tool for encode/decode mixed types array values to hash and backward
  *
@@ -143,7 +142,8 @@ class Hash {
 			$this->_export   = false;
 		}
 
-		$this->_shuffleTypes( $this->_secret );
+		$this->_shuffleTypes();
+		$this->_shuffleAlphabet();
 	}
 
 	/**
@@ -430,7 +430,10 @@ class Hash {
 		$len = strlen( $input );
 
 		if ( strlen($sec) < $len ) {
-			$sec = str_pad($secret, $len, $secret, STR_PAD_RIGHT);
+			$sec = str_pad($sec, $len, $sec, STR_PAD_RIGHT);
+		}
+		elseif ( strlen($sec) > $len ) {
+			$sec = substr($sec, -$len);
 		}
 
 		$hash = '';
@@ -590,9 +593,38 @@ class Hash {
 	/**
 	 * Shuffle types bits value by specified secret phrase
 	 *
+	 */
+	private function _shuffleTypes() {
+
+		$array = array_slice( array_keys($this->_types), 1 );
+
+		$this->_shuffle($array, $this->_secret);
+
+		foreach ( $array as $k => $type ) {
+			$this->_types[ $type ] = $k+1;
+		}
+	}
+
+	/**
+	 * Shuffle alphabet by specified secret phrase
+	 *
+	 */
+	private function _shuffleAlphabet() {
+		
+		$array = str_split($this->_alphabet);
+		
+		$this->_shuffle($array, $this->_secret);
+		
+		$this->_alphabet = implode('', $array);
+	}
+
+	/**
+	 * Shuffle array by specified secret phrase
+	 *
+	 * @param array $array
 	 * @param string $secret
 	 */
-	private function _shuffleTypes( $secret ) {
+	private function _shuffle( &$array, $secret ) {
 
 		$len = strlen($secret);
 		$symbols = str_split($secret);
@@ -600,8 +632,6 @@ class Hash {
 		if ( !$len ) {
 			return;
 		}
-
-		$array = array_slice( array_keys($this->_types), 1 );
 
 		for (
 			$i = sizeof($array) - 1, $v = 0, $p = 0;
@@ -616,10 +646,6 @@ class Hash {
 			$temp = $array[$j];
 			$array[$j] = $array[$i];
 			$array[$i] = $temp;
-		}
-
-		foreach ( $array as $k => $type ) {
-			$this->_types[ $type ] = $k+1;
 		}
 	}
 
