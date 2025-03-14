@@ -110,7 +110,7 @@ class Hash {
 
 	constructor ( params )
 	{
-		this.setup(params);
+		this.setup(params||{});
 	}
 
 	setup ( params )
@@ -121,7 +121,7 @@ class Hash {
 		}
 		else
 		{
-			this.#_secret   = navigator.userAgent;
+			this.#_secret   = navigator.userAgent + navigator.languages.join();// + (navigator.buildID||'');
 		}
 
 		if ( 'alphabet' in params ) {
@@ -432,7 +432,7 @@ class Hash {
 
 		if ( ! bin.length )
 		{
-			return this.#_zeroValues[type] || null;
+			return this.#_zeroValues[type];
 		}
 		let method = '#_type_' + type;
 
@@ -964,7 +964,7 @@ class Hash {
 			return HashTool.inet_ntop(binary);
 		}
 
-		if ( HashTool.inet_pton(value.toString()) !== false )
+		if ( value.toString().length && HashTool.inet_pton(value.toString()) !== false )
 		{
 			return HashTool.inet_pton(value.toString());
 		}
@@ -978,7 +978,7 @@ class Hash {
 			return HashTool.bin2hex(binary).toLowerCase();
 		}
 
-		if ( /^[0-9a-f]+$/i.test( value.toString() ) )
+		if ( value && /^[0-9a-f]+$/i.test( value.toString() ) )
 		{
 			return HashTool.hex2bin( value.toString() );
 		}
