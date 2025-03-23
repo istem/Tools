@@ -40,7 +40,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- * @author istem
+ * @author ml
  */
 class Hash {
 
@@ -470,7 +470,7 @@ class Hash {
 
 			$initial = md5( $hash . '+' . $secret, true);
 
-			$count = ( $this->_crc($secret, '') % $quantity ) + 2;
+			$count = ( $this->_crc($initial, '') % $quantity ) + 2;
 
 			for ( $i=0; $i < $count; $i++ ) {
 				$initial = md5($initial, true);
