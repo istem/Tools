@@ -475,7 +475,7 @@ class Hash {
 			for ( $i=0; $i < $count; $i++ ) {
 				$initial = md5($initial, true);
 			}
-			$hash .= substr($initial, 0, $shift);
+			$hash .= substr($initial, 0, ($count % $shift) + 1 );
 
 			$secret = substr($secret, 0, -1);
 		}
