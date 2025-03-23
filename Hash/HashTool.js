@@ -113,7 +113,6 @@ class HashTool {
 		// IPv4
 		if ( aip.length === 4 )
 		{
-			// IPv4
 			return aip.join('.');
 		}
 		// IPv6
