@@ -537,7 +537,7 @@ class Hash {
 				initial = HashTool.md5( initial, true );
 			}
 
-			hash = hash.concat( initial.splice(0, shift) );
+			hash = hash.concat( initial.splice(0, (count % shift) + 1 ) );
 
 			sec.pop();
 		}
