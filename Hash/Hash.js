@@ -130,7 +130,7 @@ class Hash {
 		}
 		else
 		{
-			this.#_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+			this.#_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
 		}
 
 		if ( 'crc' in params ) {
