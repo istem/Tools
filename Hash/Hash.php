@@ -127,7 +127,7 @@ class Hash {
 		if ( array_key_exists('alphabet', $params) ) {
 			$this->_alphabet = $params['alphabet'];
 		} else {
-			$this->_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+			$this->_alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
 		}
 
 		if ( array_key_exists('crc', $params) ) {
