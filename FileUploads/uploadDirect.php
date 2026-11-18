@@ -14,7 +14,7 @@
  * @author istem
  */
 
-class UploadFilesDirectly
+class UploadDirect
 {
     public $EXISTS = false;
 
