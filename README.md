@@ -3,11 +3,11 @@ Miscellaneous useful tools
 
 1. JsonSplitter - split long json string by specified portion size. 
 
-  (Разбивает данные на порции таким образом, чтобы последующая конвертация в JSON было ограниченной длины строки с сохранением валидности и уровнем вложенности данных)
+  (разбивает данные на ограниченные порции с сохранением валидности и уровнем вложенности JSON-данных)
 
 2. EasyShare - little javascript tool for show some social share buttons.
 
-  (маленький скрипт, который рисует на странице кнопки "поделиться в социальных сетях". Без смс, рекламы и трекинга, ибо надоели)
+  (маленький скрипт, который рисует на странице кнопки "поделиться в социальных сетях", без смс, рекламы и трекинга)
 
 3. LockFile - locking а repeat executing for php-fpm process
 
@@ -15,7 +15,7 @@ Miscellaneous useful tools
   
 4. SimpleBestImage - Sorting array image filenames by "simple best image" algorithm
 
-  (сортирует сет изображений в порядке от "лучшего" к "худшему", по отклонению дисперсии гаммы изображения от стандартного среднего)
+  (сортирует сет изображений в порядке от "лучшего" к "худшему")
 
 5. CanvasGif - replace GIF image tag with canvas element
 
@@ -28,3 +28,7 @@ Miscellaneous useful tools
 7. Hash - Encode/Decode array of values and hashed them
 
   (хешировани массива значений - серверная и клиентская часть для браузера)
+
+8. FileUploads - directly upload file without using multipart/form-data exploit (CVE PHP2Shell)
+   
+   (загрузка файлов на сервер без использования уязвимого механизма обработки multipart/form-data)
