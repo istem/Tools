@@ -10,6 +10,8 @@
  *    <input type="file" data-callback="callbackFunc">
  *
  *    window.callbackFunc ( array messages : statuses uploaded file[s] )
+ *
+ * @author istem
  */
 
 ;(document.addEventListener ( "DOMContentLoaded", function ()
