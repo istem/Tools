@@ -57,7 +57,13 @@
         {
             if ( files[k].name == file.name )
             {
-                files[k].result = file.name + ' : ' + ( error ? 'ERROR: ' + error : ( data.success ? 'OK': (data.error||'Not Success') ) );
+                files[k].result = file.name 
+                    + ' : '
+                    + ( 
+                        error 
+                            ? 'ERROR: ' + error 
+                            : ( data.success ? 'OK': (data.error||'Not Success') )
+                    );
             }
             mess.push ( files[k].result );
         }
@@ -106,7 +112,8 @@
         }
     };
 
-    document.querySelectorAll('form').forEach( function ( frm )
+    var forms = [].slice.call( document.querySelectorAll('form') );
+    forms.forEach( function ( frm )
     {
         if (
             ! frm.classList.contains('direct-upload')
@@ -116,7 +123,9 @@
             return;
         }
 
-        document.querySelectorAll('input[type="file"]', frm).forEach( function ( fl )
+        var inputs = [].slice.call( document.querySelectorAll('input[type="file"]', frm) );
+
+        inputs.forEach( function ( fl )
         {
             fl.addEventListener( 'change', _chng );
         });
