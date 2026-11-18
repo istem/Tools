@@ -50,7 +50,7 @@ if ( isset ( $_FILES['my-pretty-input-name'] ) )
     </script>
   </head>
   <body>
-    <form class="direct-upload" method="">
+    <form action="" class="direct-upload" method="">
       <input type="file" name="my-pretty-input-name" data-callback="callbackUpload" multiple />
     </form>
   </body>
