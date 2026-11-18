@@ -2,6 +2,15 @@
 /**
  * Example to use directly Uploader File
  * 
+ *
+ * Worked for:
+ *    <form class="direct-upload"> <input type="file">
+ *
+ * [Optional]
+ *    <input type="file" data-callback="callbackFunc">
+ *
+ *    window.callbackFunc ( array messages : statuses uploaded file[s] )
+ *
  * @author istem
  */
 
@@ -41,7 +50,7 @@ if ( isset ( $_FILES['my-pretty-input-name'] ) )
     </script>
   </head>
   <body>
-    <form method="">
+    <form class="direct-upload" method="">
       <input type="file" name="my-pretty-input-name" data-callback="callbackUpload" multiple />
     </form>
   </body>
